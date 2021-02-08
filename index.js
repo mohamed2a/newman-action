@@ -11,7 +11,6 @@ async function init () {
     const idRegex = /^[0-9]{7,}-\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/
 
     const options = {
-      apiKey: '?apikey=' + get('apiKey'),
       collection: get('collection', required),
       environment: get('environment'),
       globals: get('globals'),
@@ -32,25 +31,10 @@ async function init () {
       reporters: split(get('reporters')),
       reporter: safeParse(get('reporter')),
       color: get('color'),
-      sslClientCert: get('sslClientCert'),
-      sslClientKey: get('sslClientKey'),
-      sslClientPassphrase: get('sslClientPassphrase'),
-      sslClientCertList: split(get('sslClientCertList')),
-      sslExtraCaCerts: get('sslExtraCaCerts'),
-      requestAgents: safeParse(get('requestAgents')),
-      cookieJar: get('cookieJar')
     }
 
     if (!options.apiKey) {
       core.warning('No Postman API key provided.')
-    }
-
-    if (options.collection.match(idRegex)) {
-      options.collection = `${apiBase}/collections/${options.collection}${options.apiKey}`
-    }
-
-    if (options.environment.match(idRegex)) {
-      options.environment = `${apiBase}/environments/${options.environment}${options.apiKey}`
     }
 
     runNewman(options)
@@ -77,8 +61,11 @@ function split (str) {
 
 function runNewman (options) {
   newman.run(options).on('done', (err, summary) => {
-    if (!options.suppressExitCode && (err || summary.run.failures.length)) {
-      core.setFailed('Newman run failed!' + (err || ''))
+    if (err || summary.error) {
+      console.error('collection run encountered an error.');
+    }
+    else {
+      console.log('collection run completed.');
     }
   })
 }
