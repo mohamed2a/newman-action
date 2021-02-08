@@ -20,7 +20,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@actions/core": "^1.2.6",
-    "newman": "^5.2.1"
+    "newman": "^5.2.2"
   },
   "devDependencies": {
     "standard": "^16.0.1"

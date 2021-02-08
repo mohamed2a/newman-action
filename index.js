@@ -15,6 +15,7 @@ async function init () {
       collection: get('collection', required),
       environment: get('environment'),
       globals: get('globals'),
+      envVar: safeParse(get('envVar')),
       iterationCount: Number(get('iterationCount')),
       iterationData: get('iterationData'),
       folder: split(get('folder')),

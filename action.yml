@@ -14,6 +14,8 @@ inputs:
     description: 'Environment to use'
   globals:
     description: 'Globals to use'
+  envVar:
+    description: 'Environment variables to use'
   iterationCount:
     description: 'Number of iterations to run on the collection'
   iterationData:
